@@ -10,7 +10,7 @@ Ex de estrutura de diretório:
 • No retorno das requisições do endpoint de https://swapi.dev/api/people, temos uma lista dos filmes vinculados com cada registro de people. Desenvolva um script que salve em um arquivo .json o nome da pessoa e uma lista de títulos dos filmes vinculados aos registros de people.
 
 ## Solução Proposta:
-Utilizar o Airflow para orquestrar toda extração e transformação solicitada, e obter assim os arquivos solicitados e a informação do numero de registros na tela. Assim como desenvolver uma aplicação faça a mesma coisa localmente.
+Utilizar o Airflow para orquestrar toda extração e transformação solicitada, e obter assim os arquivos solicitados e a informação do numero de registros na tela. Assim como desenvolver uma aplicação que faça a mesma coisa localmente.
  
 ## Instruções de uso:
 
