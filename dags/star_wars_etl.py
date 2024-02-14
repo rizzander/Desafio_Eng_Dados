@@ -33,16 +33,20 @@ def get_all_data_and_group_by_year(endpoint, directory):
             json.dump(results, f, indent=4)
 
 # Define a função para contar o número de registros do endpoint 'people'
-def count_records():
-    people_data = pd.read_json('people/2014/people.json')
-    num_records = len(people_data)
+def count_records(**kwargs):
+    ti = kwargs['ti']  # Obtém o objeto TaskInstance
+    people_data = ti.xcom_pull(task_ids='extrair_dados')  # Obtém os dados da tarefa extrair_dados
+    num_records = sum(len(data) for data in people_data.values())  # Conta o número total de registros
     print(f"O número total de registros do endpoint 'people' é: {num_records}")
 
 # Define a função para extrair os títulos dos filmes vinculados a cada pessoa e salvá-los em um arquivo JSON
-def transform():
-    people_data = pd.read_json('people/2014/people.json')
-    films_data = pd.read_json('films/2014/films.json')
-
+def transform(**kwargs):
+    ti = kwargs['ti']  # Obtém o objeto TaskInstance
+    people_data = ti.xcom_pull(task_ids='extrair_dados')  # Obtém os dados da tarefa extrair_dados
+    
+    # Carrega os dados de filmes
+    films_data = pd.read_json(people_data['people'])  # Supondo que a saída da tarefa extrair_dados foi salva com a chave 'people'
+    
     def extract_films_titles(films_urls):
         films_titles = []
         for film_url in films_urls:
@@ -52,13 +56,14 @@ def transform():
         return films_titles
 
     people_films = []
-    for index, person in people_data.iterrows():
-        films_titles = extract_films_titles(person['films'])
-        people_films.append({
-            'name': person['name'],
-            'gender': person['gender'],
-            'films': films_titles
-        })
+    for year_data in people_data.values():
+        for person_data in year_data:
+            films_titles = extract_films_titles(person_data['films'])
+            people_films.append({
+                'name': person_data['name'],
+                'gender': person_data['gender'],
+                'films': films_titles
+            })
 
     with open('people_with_films.json', 'w') as outfile:
         json.dump(people_films, outfile, indent=4)
@@ -101,12 +106,14 @@ extract_data_task = PythonOperator(
 count_records_task = PythonOperator(
     task_id='contar_registros',
     python_callable=count_records,
+    provide_context=True, 
     dag=dag,
 )
 
 transform_task = PythonOperator(
     task_id='transformar',
     python_callable=transform,
+    provide_context=True,  
     dag=dag,
 )
 
