@@ -22,5 +22,7 @@ Utilizar o Airflow para orquestrar toda extração e transformação solicitada,
 
 ## Considerações finais:
 
-Este está sendo meu primeiro contato prático com o Airflow, por isso tive um certa dificuldade em rodar ele, pois minha máquina tem pouca memória, mas mesmo assim conseguir construir e rodar a DAG no docker, mas por algum motivo que nao consegui entender até o momento nao consegui salvar os arquivos gerados localmente, portanto nao consegui atestar seu resultado prático, mesmo no airflow elas aparecendo como executadas com sucesso. Porém o extract.py foi a base das dags que estava tentando construir e nesta aplicação eu obtive sucesso nos resultados esperados.
+Este está sendo meu primeiro contato prático com o Airflow, tive algumas dificuldades, principalmente por meu computador ter pouca memória e travar sempre. Mas consegui rodar tanto localmente com o python quanto pelo docker/airflow.
+
+OBRIGADO!
 

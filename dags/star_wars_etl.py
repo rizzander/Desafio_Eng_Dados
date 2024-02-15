@@ -5,7 +5,9 @@ import json
 import requests
 import pandas as pd
 import os
-output_folder = './'
+
+output_folder = './dags'
+
 # Define a função para obter todos os dados de um endpoint da API e agrupar por ano de criação
 def get_data_and_group_by_year(endpoint, output_folder):
     data_by_year = {}
@@ -28,7 +30,7 @@ def get_data_and_group_by_year(endpoint, output_folder):
             return
 
     for year, results in data_by_year.items():
-        filename = f"{output_folder}/{year}/{endpoint.split('/')[-2]}.json"
+        filename = f"{output_folder}/{endpoint.split('/')[-2]}/{year}/{endpoint.split('/')[-2]}.json"
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w') as f:
             json.dump(results, f, indent=4)
@@ -68,7 +70,7 @@ def transform(people_endpoint, films_endpoint, output_folder):
         transformed_person = {
             'name': person_data['name'],
             'gender': person_data['gender'],
-            'films': []  # Inicialmente, nenhum título de filme associado
+            'films': []  
         }
 
         # Adicionar títulos de filmes vinculados à pessoa
