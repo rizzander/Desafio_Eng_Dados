@@ -69,6 +69,7 @@ def transform(people_endpoint, films_endpoint, output_folder):
     for person_data in people_data['results']:
         transformed_person = {
             'name': person_data['name'],
+            'height': person_data['height'],  
             'gender': person_data['gender'],
             'films': []  
         }
