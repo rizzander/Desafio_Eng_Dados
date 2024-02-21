@@ -26,7 +26,7 @@ Utilizar o Airflow para orquestrar toda extração e transformação solicitada,
 
 ## Considerações finais:
 
-Este está sendo meu primeiro contato prático com o Airflow, tive s oportunidade de aprender seus conceitos basicos e assim poder adiquirir mais uma nova habilidade
+Este está sendo meu primeiro contato prático com o Airflow, tive a oportunidade de aprender seus conceitos basicos e assim poder adiquirir mais uma nova habilidade
 
 OBRIGADO!
 
