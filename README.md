@@ -9,7 +9,7 @@ Ex de estrutura de diretório:
 •    Quantos registros foram retornados do endpoint people e salvo nos arquivos?
 • No retorno das requisições do endpoint de https://swapi.dev/api/people, temos uma lista dos filmes vinculados com cada registro de people. Desenvolva um script que salve em um arquivo .json o nome da pessoa e uma lista de títulos dos filmes vinculados aos registros de people.
 
-##Objetivos:
+## Objetivos:
 
 Demonstrar a habilidades de orquestrar um ETL utilizando o Airflow. 
 
