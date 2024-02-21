@@ -8,7 +8,6 @@ import os
 
 output_folder = './dags'
 
-# Define a função para obter todos os dados de um endpoint da API e agrupar por ano de criação
 def get_data_and_group_by_year(endpoint, output_folder):
     data_by_year = {}
     page = 1
@@ -35,7 +34,6 @@ def get_data_and_group_by_year(endpoint, output_folder):
         with open(filename, 'w') as f:
             json.dump(results, f, indent=4)
 
-# Define a função para contar o número de registros do endpoint 'people'
 def count_records(people_endpoint, output_folder):
     url = people_endpoint
     num_records = 0
@@ -50,21 +48,15 @@ def count_records(people_endpoint, output_folder):
         f.write(f"O número total de registros do endpoint 'people' é: {num_records}")
     return num_records
 
-# Define a função para transformar os dados e salvar em um arquivo JSON
 def transform(people_endpoint, films_endpoint, output_folder):
-    # Definir os endpoints da API
     people_endpoint = 'https://swapi.dev/api/people/'
     films_endpoint = 'https://swapi.dev/api/films/'
-
-    # Requisição aos dados de pessoas
     response_people = requests.get(people_endpoint)
     people_data = response_people.json()
 
-    # Requisição aos dados de filmes
     response_films = requests.get(films_endpoint)
     films_data = response_films.json()
 
-    # Selecionar apenas os atributos desejados para as pessoas
     transformed_data = []
     for person_data in people_data['results']:
         transformed_person = {
@@ -74,7 +66,6 @@ def transform(people_endpoint, films_endpoint, output_folder):
             'films': []  
         }
 
-        # Adicionar títulos de filmes vinculados à pessoa
         for film_url in person_data['films']:
             response_film = requests.get(film_url)
             film_data = response_film.json()
@@ -82,14 +73,13 @@ def transform(people_endpoint, films_endpoint, output_folder):
 
         transformed_data.append(transformed_person)
 
-    # Selecionar apenas os atributos desejados para os filmes
     transformed_films = []
     for film_data in films_data['results']:
         transformed_film = {
             'title': film_data['title']
         }
         transformed_films.append(transformed_film)
-    # Montar o JSON final combinando pessoas e filmes
+
     final_json = {
         'people': transformed_data,
         'films': transformed_films
@@ -100,7 +90,7 @@ def transform(people_endpoint, films_endpoint, output_folder):
         json.dump(transformed_data, outfile, indent=4)
 
 
-# Definir argumentos padrão da DAG
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -112,14 +102,14 @@ default_args = {
 
 }
 
-# Definir os endpoints da API
+
 endpoints = {
     'people': 'https://swapi.dev/api/people/',
     'films': 'https://swapi.dev/api/films/',
     'vehicles': 'https://swapi.dev/api/vehicles/'
 }
 
-# Definir a DAG
+
 dag = DAG(
     'star_wars_etl',
     default_args=default_args,
@@ -127,7 +117,6 @@ dag = DAG(
     schedule_interval=None,  # Não agendado, para execução manual
 )
 
-# Definir as tasks da DAG
 extract_data_people_task = PythonOperator(
     task_id='extrair_dados_people',
     python_callable=get_data_and_group_by_year,
@@ -165,6 +154,5 @@ transform_task = PythonOperator(
     dag=dag,
 )
 
-# Definir as dependências entre as tasks
 extract_data_people_task >> extract_data_films_task >> extract_data_vehicles_task >> count_records_task >> transform_task
 
