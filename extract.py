@@ -3,7 +3,7 @@ import json
 import requests
 import pandas as pd
 
-# Função para obter todos os dados de um endpoint da API e agrupar por ano de criação
+
 def get_all_data_and_group_by_year(endpoint, directory):
     data_by_year = {}
     page = 1
@@ -30,32 +30,32 @@ def get_all_data_and_group_by_year(endpoint, directory):
         with open(filename, 'w') as f:
             json.dump(results, f, indent=4)
 
-# URLs dos endpoints da API
+
 endpoints = {
     'people': 'https://swapi.dev/api/people/',
     'films': 'https://swapi.dev/api/films/',
     'vehicles': 'https://swapi.dev/api/vehicles/'
 }
 
-# Itera sobre os endpoints, obtém todos os dados e agrupa por ano de criação
+
 for endpoint, url in endpoints.items():
     get_all_data_and_group_by_year(url, endpoint)
 
 
 
-# Carregar o arquivo JSON em um DataFrame
+
 people_data = pd.read_json('people/2014/people.json')
 
-# Contar o número de registros
+
 num_records = len(people_data)
 
 print(f"O número total de registros do endpoint 'people' é: {num_records}")
 
-# Carregar os arquivos JSON em DataFrames
+
 people_data = pd.read_json('people/2014/people.json')
 films_data = pd.read_json('films/2014/films.json')
 
-# Função para extrair os títulos dos filmes vinculados a uma pessoa
+
 def extract_films_titles(films_urls):
     films_titles = []
     for film_url in films_urls:
@@ -64,7 +64,7 @@ def extract_films_titles(films_urls):
         films_titles.append(film_title)
     return films_titles
 
-# Iterar sobre os registros de pessoas e extrair os títulos dos filmes
+
 people_films = []
 for index, person in people_data.iterrows():
     films_titles = extract_films_titles(person['films'])
@@ -74,7 +74,7 @@ for index, person in people_data.iterrows():
         'films': films_titles
     })
 
-# Salvar os dados em um arquivo JSON
+
 with open('people_with_films.json', 'w') as outfile:
     json.dump(people_films, outfile, indent=4)
 
