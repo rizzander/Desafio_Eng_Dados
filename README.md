@@ -24,9 +24,7 @@ Utilizar o Airflow para orquestrar toda extração e transformação solicitada,
   - Os arquivos estarão no diretório de execução da DAG assim como o arquivo de texto com a contagem de registros em people
   - Para executar localmente, basta rodar o programa extract.py que ele fara a mesma coisa, com a diferença que o número de contagem de registros aparecerá como um print no console python.
 
-## Considerações finais:
 
-Este está sendo meu primeiro contato prático com o Airflow, tive a oportunidade de aprender seus conceitos basicos e assim poder adiquirir mais uma nova habilidade
 
 OBRIGADO!
 
